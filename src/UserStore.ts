@@ -1,14 +1,31 @@
 import { create } from "zustand";
+import { createAPI } from './DataUtil';
 
-interface User {
+
+interface IUser {
     username: string,
-    role: string,
+    rolevalue: string,
     isLoggedIn: boolean,
+    sessionkey: string,
     login: (username: string, password: string) => Promise<void>,
     logout: () => void,
 }
 const keyname = "userstore";
-export const useUserStore = create<User>(
+
+
+export async function loginUser(url: string, username: string, password: string): Promise<{ username: string, role: string }> {
+    const postData = createAPI(url).postData;
+    const user = await postData("login", { username, password }) as { username: string; role: string; };
+
+    if (!user) {
+        throw new Error('Failed to login');
+    }
+
+    return user;
+}
+
+
+export const useUserStore = (url: string) => create<IUser>(
     (set) => {
         const storedvalue = sessionStorage.getItem(keyname);
         const initialvals = storedvalue ?
@@ -22,8 +39,8 @@ export const useUserStore = create<User>(
                 set(newstate);
             },
             login: async (username: string, password: string) => {
-                const roleval = username.toLowerCase().startsWith("x") && password != "" ? "admin" : "user";
-                const newstate = { username: username, role: roleval, isLoggedIn: true };
+                const user = await loginUser(url, username, password);
+                const newstate = { ...user, isLoggedIn: true };
                 sessionStorage.setItem(keyname, JSON.stringify(newstate));
                 set(newstate);
             }

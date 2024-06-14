@@ -3,6 +3,8 @@ interface IUser {
     rolevalue: string;
     isLoggedIn: boolean;
     sessionkey: string;
+}
+interface IUserStore extends IUser {
     login: (username: string, password: string) => Promise<void>;
     logout: () => void;
 }
@@ -10,5 +12,5 @@ export declare function loginUser(url: string, username: string, password: strin
     username: string;
     role: string;
 }>;
-export declare const useUserStore: (url: string) => import("zustand").UseBoundStore<import("zustand").StoreApi<IUser>>;
+export declare const useUserStore: (url: string) => import("zustand").UseBoundStore<import("zustand").StoreApi<IUserStore>>;
 export {};

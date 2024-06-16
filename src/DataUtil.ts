@@ -1,8 +1,10 @@
 import { FieldValues } from "react-hook-form";
-import { useUserStore } from "./UserStore";
+import { createUserStore } from "./UserStore";
+
 
 
 export function createAPI(baseurl: string) {
+    const u = createUserStore();
     async function fetchData<T>(url: string): Promise<T> {
         url = baseurl + url;
         const r = await fetch(url, {
@@ -40,7 +42,7 @@ export function createAPI(baseurl: string) {
         return data;
     };
     function getApiKey() {
-        const u = useUserStore(baseurl);
+
         return u(state => state.sessionkey);
     }
     return { fetchData, deleteData, postData };

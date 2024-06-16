@@ -13,7 +13,7 @@ interface IUser {
 const keyname = "userstore";
 
 
-export async function loginUser(url: string, username: string, password: string): Promise<{ username: string, role: string }> {
+async function loginUser(url: string, username: string, password: string): Promise<{ username: string, role: string }> {
     const postData = createAPI(url).postData;
     const user = await postData("login", { username, password }) as { username: string; role: string; };
 
@@ -24,8 +24,9 @@ export async function loginUser(url: string, username: string, password: string)
     return user;
 }
 
+const urlval = "http://localhost:5086/api/";
 
-export const useUserStore = (url: string) => create<IUser>(
+export const createUserStore = () => create<IUser>(
     (set) => {
         const storedvalue = sessionStorage.getItem(keyname);
         const initialvals = storedvalue ?
@@ -39,7 +40,7 @@ export const useUserStore = (url: string) => create<IUser>(
                 set(newstate);
             },
             login: async (username: string, password: string) => {
-                const user = await loginUser(url, username, password);
+                const user = await loginUser(urlval, username, password);
                 const newstate = { ...user, isLoggedIn: true };
                 sessionStorage.setItem(keyname, JSON.stringify(newstate));
                 set(newstate);

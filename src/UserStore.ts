@@ -3,7 +3,7 @@ import { createAPI } from './DataUtil';
 
 interface User {
     username: string,
-    role: string,
+    rolevalue: string,
     isLoggedIn: boolean,
     sessionkey: string,
     login: (username: string, password: string) => Promise<void>,

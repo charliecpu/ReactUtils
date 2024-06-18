@@ -28,7 +28,7 @@ export const createUserStore = (apiUrl: string) => create<User>((set) => {
     const storedvalue = sessionStorage.getItem(keyname);
     const initialvals = storedvalue ?
         JSON.parse(storedvalue) :
-        { username: "", role: "", isLoggedIn: false, };
+        { username: "", rolevalue: "", isLoggedIn: false, sessionkey: "", errorMessage: "" };
     return {
         ...initialvals,
         logout: () => {

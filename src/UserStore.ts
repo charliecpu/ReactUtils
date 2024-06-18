@@ -6,6 +6,7 @@ interface User {
     rolevalue: string,
     isLoggedIn: boolean,
     sessionkey: string,
+    errorMessage: string,
     login: (username: string, password: string) => Promise<void>,
     logout: () => void,
 }

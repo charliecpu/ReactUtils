@@ -41,6 +41,7 @@ export const createUserStore = (apiUrl: string) => create<User>((set) => {
             const newstate = { ...user, isLoggedIn: true };
             sessionStorage.setItem(keyname, JSON.stringify(newstate));
             set(newstate);
+            return user;
         }
     }
 });

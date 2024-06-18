@@ -31,7 +31,7 @@ export const createUserStore = (apiUrl: string) => create<User>((set) => {
     return {
         ...initialvals,
         logout: () => {
-            const newstate = { username: "", role: "", isLoggedIn: false };
+            const newstate = { username: "", rolevalue: "", isLoggedIn: false, sessionkey: "" };
             sessionStorage.setItem(keyname, JSON.stringify(newstate))
             set(newstate);
         },

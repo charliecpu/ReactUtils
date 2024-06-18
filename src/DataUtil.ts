@@ -1,13 +1,11 @@
 import { FieldValues } from "react-hook-form";
-import { createUserStore } from "./UserStore";
 
-export function createAPI(baseurl: string) {
-    const u = createUserStore(baseurl);
+export function createAPI(baseurl: string, sessionkey: string) {
     async function fetchData<T>(url: string): Promise<T> {
         url = baseurl + url;
         const r = await fetch(url, {
             headers: {
-                "Authorization": `Bearer ${getApiKey()}`
+                "Authorization": `Bearer ${sessionkey}`
             }
         });
         const data = await r.json();
@@ -19,7 +17,7 @@ export function createAPI(baseurl: string) {
         const r = await fetch(url, {
             method: "DELETE",
             headers: {
-                "Authorization": `Bearer ${getApiKey()}`
+                "Authorization": `Bearer ${sessionkey}`
             }
         });
         const data = await r.json();
@@ -33,15 +31,11 @@ export function createAPI(baseurl: string) {
             body: JSON.stringify(form),
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${getApiKey()}`
+                "Authorization": `Bearer ${sessionkey}`
             }
         });
         const data = await r.json();
         return data;
     };
-    function getApiKey() {
-
-        return u(state => state.sessionkey);
-    }
     return { fetchData, deleteData, postData };
 }

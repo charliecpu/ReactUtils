@@ -11,7 +11,7 @@ interface User {
 }
 
 async function loginUser(apiUrl: string, username: string, password: string): Promise<{ username: string, role: string }> {
-    const postData = createAPI(apiUrl).postData;
+    const postData = createAPI(apiUrl, "").postData;
     const user = await postData("login", { username, password }) as { username: string; role: string; };
 
     if (!user) {

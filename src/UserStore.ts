@@ -32,7 +32,7 @@ export const createUserStore = (apiUrl: string) => create<User>((set) => {
     return {
         ...initialvals,
         logout: () => {
-            const newstate = { username: "", rolevalue: "", isLoggedIn: false, sessionkey: "" };
+            const newstate = { username: "", rolevalue: "", isLoggedIn: false, sessionkey: "", errorMessage: "" };
             sessionStorage.setItem(keyname, JSON.stringify(newstate))
             set(newstate);
         },
@@ -41,7 +41,6 @@ export const createUserStore = (apiUrl: string) => create<User>((set) => {
             const newstate = { ...user, isLoggedIn: true };
             sessionStorage.setItem(keyname, JSON.stringify(newstate));
             set(newstate);
-            return user;
         }
     }
 });

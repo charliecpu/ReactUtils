@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form"
-import { useUserStore } from "./UserStore";
+import { getUserStore } from "./UserStore";
 
 type forminput = { username: string, password: string }
 
 export default function Login() {
     const { register, handleSubmit, formState: { errors } } = useForm<forminput>();
+    const apiurl = "http://localhost:5086/api/";
+    const useUserStore = getUserStore(apiurl);
     const login = useUserStore((state) => state.login);
     const isLoggedIn = useUserStore(state => state.isLoggedIn);
     const onSubmit = async (data: forminput) => await login(data.username, data.password);

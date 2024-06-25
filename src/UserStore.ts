@@ -9,7 +9,7 @@ interface User {
     errorMessage: string,
     isLoggedIn: boolean,
     login: (username: string, password: string) => Promise<void>,
-    logout: () => void,
+    logout: (username: string) => void,
 }
 
 async function loginUser(apiUrl: string, username: string, password: string): Promise<User> {

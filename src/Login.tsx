@@ -8,6 +8,8 @@ export default function Login() {
     const apiurl = "http://localhost:5086/api/";
     const useUserStore = getUserStore(apiurl);
     const login = useUserStore((state) => state.login);
+    const logout = useUserStore((state) => state.logout);
+    const username = useUserStore((state) => state.userName);
     const isLoggedIn = useUserStore(state => state.isLoggedIn);
     const onSubmit = async (data: forminput) => await login(data.username, data.password);
 
@@ -25,8 +27,8 @@ export default function Login() {
                 {errors.password && <span>{errors.password.message}</span>}
                 <br />
                 <button type="submit">Login</button>
-
             </form>
+            <button onClick={() => logout(username)}>Logout</button>
         </>
     )
 }

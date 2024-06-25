@@ -1,9 +1,8 @@
 import { useForm } from "react-hook-form"
-import { createUserStore } from "./UserStore";
+import { useUserStore } from "./UserStore";
 
 type forminput = { username: string, password: string }
-const url = "http://localhost:5086/api/";
-const useUserStore = createUserStore(url);
+
 export default function Login() {
     const { register, handleSubmit, formState: { errors } } = useForm<forminput>();
     const login = useUserStore((state) => state.login);

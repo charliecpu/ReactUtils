@@ -2,20 +2,25 @@
 import { useIdleTimer } from 'react-idle-timer';
 import { useEffect } from 'react';
 import { getUserStore } from './UserStore';
-
+import { Navigate } from "react-router-dom";
 interface SessionTimeoutProps {
     apiUrl: string;
-    timeout: number; 
-    onIdle: () => void;
+    timeout: number;
+    pathtologin: string;
 }
 
-export function useSessionTimeout({ apiUrl, timeout, onIdle }: SessionTimeoutProps) {
+export function useSessionTimeout({ apiUrl, timeout, pathtologin }: SessionTimeoutProps) {
     const useUserStore = getUserStore(apiUrl);
     const isLoggedIn = useUserStore(state => state.isLoggedIn);
+    const logout = useUserStore(state => state.logout);
+    const username = useUserStore(state => state.userName);
 
-    const handleOnIdle = () => {
+    const handleOnIdle = async () => {
         if (isLoggedIn) {
-            onIdle();
+            await logout(username);
+            if (pathtologin) {
+                Navigate({ to: pathtologin });
+            }
         }
     };
 
@@ -32,6 +37,4 @@ export function useSessionTimeout({ apiUrl, timeout, onIdle }: SessionTimeoutPro
             reset();
         }
     }, [isLoggedIn, start, reset]);
-
-    return null;
 }
